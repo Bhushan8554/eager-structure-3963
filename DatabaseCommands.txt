@@ -1,0 +1,15 @@
+mysql> create database bank_System;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use bank_System;
+Database changed
+
+mysql> create table customer(account_no int primary key auto_increment,
+    -> first_name varchar(30) not null,use
+    -> last_name varchar(20) not null,
+    -> mobile varchar(10) default null,
+    -> user_name varchar(25) not null unique,
+    -> password varchar(15) not null,
+    -> balance bigint not null);
+Query OK, 0 rows affected (0.02 sec)
+
