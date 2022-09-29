@@ -56,5 +56,30 @@ public class CustomerDaoImpl implements CustomerDao{
 		return customer;
 	}
 
+	@Override
+	public void transferAmount(int accNo,long ammount) throws CustomerException {
+		try(Connection conn = DBUtil.provideConnection()) {
+			
+			
+			PreparedStatement ps= conn.prepareStatement("UPDATE Customer SET balance=balance+? WHERE account_no = ?;");			
+			
+			ps.setLong(1, ammount);
+			ps.setInt(2, accNo);
+			int  rs= ps.executeUpdate();
+			
+			if(rs<0) {
+				throw new CustomerException("invalid account number.");
+			}else {
+				
+			}
+					
+			
+		} catch (SQLException e) {
+			throw new CustomerException(e.getMessage());
+		}
+
+		
+	}
+
 	
 }

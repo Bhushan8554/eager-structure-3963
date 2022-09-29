@@ -13,3 +13,13 @@ mysql> create table customer(account_no int primary key auto_increment,
     -> balance bigint not null);
 Query OK, 0 rows affected (0.02 sec)
 
+mysql> create table accountant (id int primary key,
+    -> first_name varchar(15) not null,
+    -> last_name varchar(15) not null,
+    -> user_name varchar(20) not null unique,
+    -> password varchar(15) not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into accountant values(121,'Ram','patil','ram@123','123456');
+Query OK, 1 row affected (0.01 sec)
+
