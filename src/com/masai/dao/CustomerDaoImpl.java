@@ -57,21 +57,40 @@ public class CustomerDaoImpl implements CustomerDao{
 	}
 
 	@Override
-	public void transferAmount(int accNo,long ammount) throws CustomerException {
+	public void transferAmount(int accNo,long ammount,int cAcc) throws CustomerException {
+		
 		try(Connection conn = DBUtil.provideConnection()) {
 			
+			PreparedStatement ps= conn.prepareStatement("select balance from customer where account_no=?");	
 			
-			PreparedStatement ps= conn.prepareStatement("UPDATE Customer SET balance=balance+? WHERE account_no = ?;");			
+			ps.setInt(1, cAcc);
 			
-			ps.setLong(1, ammount);
-			ps.setInt(2, accNo);
-			int  rs= ps.executeUpdate();
-			
-			if(rs<0) {
-				throw new CustomerException("invalid account number.");
+			ResultSet  rs= ps.executeQuery();
+			rs.next();
+			long bal=rs.getLong("balance");
+			System.out.println(bal);
+			if(bal<ammount) {
+				//System.out.println("Insufficient Balance");
+				throw new CustomerException("Insufficient Balance");
 			}else {
+				PreparedStatement ps1= conn.prepareStatement("UPDATE Customer SET balance=balance+? WHERE account_no = ?;");			
 				
+				ps1.setLong(1, ammount);
+				ps1.setInt(2, accNo);
+				int  up= ps1.executeUpdate();
+				
+				if(up<0) {
+					throw new CustomerException("invalid account number.");
+				}else {
+					PreparedStatement ps2= conn.prepareStatement("UPDATE Customer SET balance=balance-? WHERE account_no = ?;");			
+					
+					ps2.setLong(1, ammount);
+					ps2.setInt(2, cAcc);
+					ps2.executeUpdate();
+				}
 			}
+			
+			 //System.out.println("Transaction Succesful ");
 					
 			
 		} catch (SQLException e) {

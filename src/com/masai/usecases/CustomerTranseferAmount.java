@@ -19,7 +19,7 @@ public class CustomerTranseferAmount {
 			CustomerDao dao = new CustomerDaoImpl();
 			
 			try {
-				dao.transferAmount(acc_no, amount);
+				dao.transferAmount(acc_no, amount,2);
 				System.out.println("Transaction Succesful");
 			
 			}catch (CustomerException e) {

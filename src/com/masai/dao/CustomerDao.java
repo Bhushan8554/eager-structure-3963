@@ -7,5 +7,5 @@ public interface CustomerDao {
 
 	public Customer loginCustomer (String userName, String password)throws CustomerException;
 	
-	public void transferAmount(int accNo,long amount)throws CustomerException;
+	public void transferAmount(int accNo,long amount,int cAcc)throws CustomerException;
 }
