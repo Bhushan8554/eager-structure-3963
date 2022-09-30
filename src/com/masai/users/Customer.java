@@ -2,49 +2,37 @@ package com.masai.users;
 
 public class Customer {
 
-	private int accountNo;
-	private String firstName;
-	private String lastName;
+	private int id;
+	private String name;
 	private String userName;
 	private String password;
-	private long balance;
 	
 	public Customer() {
 		
 	}
 
-	public Customer(int accountNo, String firstName, String lastName, String userName, String password, long balance) {
+	public Customer(int id, String name, String userName, String password) {
 		super();
-		this.accountNo = accountNo;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.id = id;
+		this.name = name;
 		this.userName = userName;
 		this.password = password;
-		this.balance = balance;
 	}
 
-	public int getAccountNo() {
-		return accountNo;
+	public int getId() {
+		return id;
 	}
 
-	public void setAccountNo(int accountNo) {
-		this.accountNo = accountNo;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getUserName() {
@@ -63,19 +51,11 @@ public class Customer {
 		this.password = password;
 	}
 
-	public long getBalance() {
-		return balance;
-	}
-
-	public void setBalance(long balance) {
-		this.balance = balance;
-	}
-
 	@Override
 	public String toString() {
-		return "Customer [accountNo=" + accountNo + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", userName=" + userName + ", password=" + password + ", balance=" + balance + "]";
+		return "Customer [id=" + id + ", name=" + name + ", userName=" + userName + ", password=" + password + "]";
 	}
+
 	
 	
 	
