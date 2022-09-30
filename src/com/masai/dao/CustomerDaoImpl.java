@@ -68,7 +68,7 @@ public class CustomerDaoImpl implements CustomerDao{
 			ResultSet  rs= ps.executeQuery();
 			rs.next();
 			long bal=rs.getLong("balance");
-			System.out.println(bal);
+			//System.out.println(bal);
 			if(bal<ammount) {
 				//System.out.println("Insufficient Balance");
 				throw new CustomerException("Insufficient Balance");
