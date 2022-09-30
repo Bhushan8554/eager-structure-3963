@@ -7,4 +7,6 @@ import com.masai.users.*;
 public interface AccountantDao {
 
 	public Accountant loginAcountant (String userName, String password)throws AccountantException;
+	
+	
 }

@@ -10,7 +10,7 @@ public class CustomerTranseferAmount {
 
 	public static void main(String[] args) {
 		try (Scanner sc = new Scanner(System.in)) {
-			System.out.println("Enter Account number:");
+			System.out.println("Enter reciever Account number:");
 			int acc_no = sc.nextInt();
 			
 			System.out.println("Enter amount:");
@@ -19,8 +19,8 @@ public class CustomerTranseferAmount {
 			CustomerDao dao = new CustomerDaoImpl();
 			
 			try {
-				dao.transferAmount(acc_no, amount,2);
-				System.out.println("Transaction Succesful");
+				dao.transferAmount(acc_no, amount,1,25);
+				
 			
 			}catch (CustomerException e) {
 				System.out.println(e.getMessage());

@@ -19,7 +19,7 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 		
-		String url="jdbc:mysql://localhost:3306/bank_System";
+		String url="jdbc:mysql://localhost:3306/bank";
 		
 		try {
 			conn= DriverManager.getConnection(url,"root","bhushan@8554");

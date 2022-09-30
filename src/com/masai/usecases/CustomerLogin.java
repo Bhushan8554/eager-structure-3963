@@ -23,7 +23,7 @@ public class CustomerLogin {
 		try {
 			Customer customer= dao.loginCustomer(uname, pass);
 		
-	 		System.out.println("Welcome :"+customer.getFirstName()+" "+customer.getLastName());
+	 		System.out.println("Welcome :"+customer.getName());
 	 	
 	 	
 		}catch (CustomerException e) {
