@@ -94,13 +94,14 @@ public class CustomerDaoImpl implements CustomerDao{
 			ps2.setInt(3, id);
 			ps2.executeUpdate();
 		
-			PreparedStatement ps3= conn.prepareStatement("insert into transactions(acc_no,receiver,date) values(?,?,?)");			
+			PreparedStatement ps3= conn.prepareStatement("insert into transactions(acc_no,receiver,date,amount) values(?,?,?,?)");			
 			
 			ps3.setInt(1, cAcc);
 			
 			ps3.setInt(2, accNo);
 
 			ps3.setString(3,formatter.format(date));
+			ps3.setLong(4,ammount);
 			ps3.executeUpdate();
 			
 			
@@ -173,13 +174,34 @@ public class CustomerDaoImpl implements CustomerDao{
 				
 				while(rs.next()) {
 					System.out.println("================================================================================");
-					System.out.println("Sender Ac No. : "+rs.getInt("acc_no")+ "  receiver Ac No. : "+rs.getInt("receiver")+"  Date : "+ rs.getDate("date"));
+					System.out.println("amount : "+rs.getLong("amount")+" Sender Ac No. : "+rs.getInt("acc_no")+ "  receiver Ac No. : "+rs.getInt("receiver")+"  Date : "+ rs.getDate("date"));
 				}
 			}
 		
 	}catch (SQLException e) {
 		throw new CustomerException(e.getMessage());
 	}
+	}
+
+	@Override
+	public void checkBalance(int id) throws CustomerException {
+
+		try(Connection conn = DBUtil.provideConnection()) {
+			
+			PreparedStatement ps= conn.prepareStatement("select balance,acc_no from account where Customer_id=?");	
+			
+			ps.setInt(1, id);
+			ResultSet  rs= ps.executeQuery();
+			while (rs.next()) {
+				System.out.println("Account no.: "+ rs.getInt("acc_no")+" Balance : "+rs.getLong("balance"));
+			}
+			
+		} catch (SQLException e) {
+			throw new CustomerException(e.getMessage());
+		}
+
+
+		
 	}
 	
 	

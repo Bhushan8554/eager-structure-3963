@@ -16,9 +16,11 @@ public interface AccountantDao {
 	public void changeUserName(int id,String name)throws CustomerException;
 	public void removeAcc(int accNo)throws CustomerException;
 	public void viewDetail(int accNo)throws CustomerException;
+	public void approveLoan(int accNo,String str,long amount)throws CustomerException;
+	public void removeLoan(int accNo)throws CustomerException;
 	public void viewAllAccDetail()throws CustomerException;
 	public void withdrawAmount(int accNo,int amount)throws CustomerException;
-	public void changeAccNo(int id,int currAcNo,int newAcNo)throws CustomerException;
+
 
 
 

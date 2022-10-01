@@ -34,9 +34,9 @@ public class AccountantDaoImpl implements AccountantDao{
 		try(Connection conn = DBUtil.provideConnection()) {
 			
 			
-			PreparedStatement ps= conn.prepareStatement("insert into account (customer_id) values (?)");			
-			
-			ps.setInt(1, id);
+			PreparedStatement ps= conn.prepareStatement("insert into account (acc_no,customer_id) values (?,?)");			
+			ps.setInt(1, acc_no);
+			ps.setInt(2, id);
 			
 			
 			int x=ps.executeUpdate();
@@ -51,18 +51,19 @@ public class AccountantDaoImpl implements AccountantDao{
 				ps1.setInt(2, id);
 				
 				ResultSet res=ps1.executeQuery();
+				res.next();
 				String sert=res.getString("name");
 				System.out.println("Account no "+acc_no+" Assign to user "+sert);
 				
 				
-			}else
-				throw new CustomerException("User name Allready Exist");
+			}else {
+				throw new CustomerException("Customer not exist");
 			
-			
+			 }
 			
 			
 		} catch (SQLException e) {
-			throw new CustomerException(e.getMessage());
+			throw new CustomerException("Customer not Exist");
 		}
 		
 	}
@@ -132,12 +133,62 @@ public class AccountantDaoImpl implements AccountantDao{
 
 	@Override
 	public void viewDetail(int accNo) throws CustomerException {
+		try(Connection conn = DBUtil.provideConnection()) {
+			PreparedStatement ps1=conn.prepareStatement("select customer.id, customer.name, customer.user_name, account.acc_no, account.balance,account.loan "
+					+ "from customer inner join account on customer.id=account.customer_id where account.acc_no=?");
+			ps1.setInt(1, accNo);
+			
+			ResultSet res=ps1.executeQuery();
+			
+			if(res.next()) {
+				System.out.println("======================================================");
+				System.out.println("account no.:- "+res.getInt("acc_no")+"\n "+"Customer Id :- "+res.getInt("id")+"\n "+"Customer Name :- "+res.getString("name")
+				+"\n "+"Customer user name :- "+res.getString("user_name")+"\n "+"Customer Account balance :- "+res.getString("balance")+"Customer loan :- "+res.getString("loan"));
+				System.out.println("======================================================");
+				System.out.println("transaction history");
+				try {
+					CustomerDao dao=new CustomerDaoImpl();
+					
+					dao.transactionHistory(res.getInt("id"));
+					
+				
+				}catch (CustomerException e) {
+					System.out.println(e.getMessage());
+				}
+			}else {
+				throw new CustomerException("invalid account");
+			}
+			
+		} catch (SQLException e) {
+			throw new CustomerException(e.getMessage());
+		}
 		
 	}
 
 	@Override
 	public void viewAllAccDetail() throws CustomerException {
-		// TODO Auto-generated method stub
+
+
+		try(Connection conn = DBUtil.provideConnection()) {
+			PreparedStatement ps1=conn.prepareStatement("select customer.id, customer.name, customer.user_name, account.acc_no, account.balance,account.loan "
+					+ "from customer inner join account on customer.id=account.customer_id");
+			
+			
+			ResultSet res=ps1.executeQuery();
+			
+			while(res.next()) {
+				System.out.println("======================================================");
+				System.out.println("account no.:- "+res.getInt("acc_no")+"\n "+"Customer Id :- "+res.getInt("id")+"\n "+"Customer Name :- "+res.getString("name")
+				+"\n "+"Customer user name :- "+res.getString("user_name")+"\n "+"Customer Account balance :- "+res.getString("balance")+"Customer loan :- "+res.getString("loan"));
+				//System.out.println("======================================================");
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			throw new CustomerException(e.getMessage());
+		}
+		
 		
 	}
 
@@ -145,7 +196,7 @@ public class AccountantDaoImpl implements AccountantDao{
 	public void depositeAmount(int accNo , int amount) throws CustomerException {
 		try(Connection conn = DBUtil.provideConnection()) {
 			
-			PreparedStatement ps= conn.prepareStatement("UPDATE account SET balance=balance+? WHERE id = ?");	
+			PreparedStatement ps= conn.prepareStatement("UPDATE account SET balance=balance+? WHERE acc_no = ?");	
 			
 			ps.setInt(1, amount);
 			ps.setInt(2, accNo);
@@ -177,7 +228,7 @@ public class AccountantDaoImpl implements AccountantDao{
 			}else {
 				throw new CustomerException("invalid account");
 			}
-			PreparedStatement ps= conn.prepareStatement("UPDATE account SET balance=balance-? WHERE id = ?");	
+			PreparedStatement ps= conn.prepareStatement("UPDATE account SET balance=balance-? WHERE acc_no = ?");	
 			
 			ps.setInt(1, amount);
 			ps.setInt(2, accNo);
@@ -194,26 +245,48 @@ public class AccountantDaoImpl implements AccountantDao{
 	}
 
 	@Override
-	public void changeAccNo(int id, int currAcNo, int newAcNo) throws CustomerException {
+	public void approveLoan(int accNo, String str,long amount) throws CustomerException {
+		
+		
 		try(Connection conn = DBUtil.provideConnection()) {
+			PreparedStatement ps1=conn.prepareStatement("UPDATE account SET balance=balance+? ,loan=? WHERE acc_no = ?");
 			
-			PreparedStatement ps= conn.prepareStatement("UPDATE account SET acc_no=? WHERE customer_id = ? and acc_no=?");	
+			ps1.setLong(1, amount);
+			ps1.setString(2, str);
+			ps1.setInt(3, accNo);
+			int x=ps1.executeUpdate();
 			
-			ps.setInt(1, newAcNo);
-			ps.setInt(2, id);
-			ps.setInt(1, currAcNo);
-			
-			int  up= ps.executeUpdate();
-			
-			if(up<=0) {
-				throw new CustomerException("invalid account");
+			if(x<=0) {
+				throw new CustomerException("Account not found");
 			}
-			System.out.println("Account changed succesfully");
+			
+		} catch (SQLException e) {
+			throw new CustomerException(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void removeLoan(int accNo) throws CustomerException {
+		
+		try(Connection conn = DBUtil.provideConnection()) {
+			PreparedStatement ps1=conn.prepareStatement("UPDATE account SET loan=? WHERE acc_no = ?");
+			
+			ps1.setString(1, "0");
+			ps1.setLong(2, accNo);
+			
+			int x=ps1.executeUpdate();
+			
+			if(x<=0) {
+				throw new CustomerException("Account not found");
+			}
+			
 		} catch (SQLException e) {
 			throw new CustomerException(e.getMessage());
 		}
 	}
 
+	
 	
 	
 	
