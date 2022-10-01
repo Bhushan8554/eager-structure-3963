@@ -20,6 +20,7 @@ public class App {
 		boolean loop =true;
 		
 		while(loop) {
+			System.out.println("==================================================");
 			System.out.println("please select below option 1/2/3/4");
 			System.out.println("1 : Login as Accountant");
 			System.out.println("2 : Login as Customer");
