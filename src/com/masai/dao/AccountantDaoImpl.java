@@ -143,7 +143,7 @@ public class AccountantDaoImpl implements AccountantDao{
 			if(res.next()) {
 				System.out.println("======================================================");
 				System.out.println("account no.:- "+res.getInt("acc_no")+"\n "+"Customer Id :- "+res.getInt("id")+"\n "+"Customer Name :- "+res.getString("name")
-				+"\n "+"Customer user name :- "+res.getString("user_name")+"\n "+" Customer Account balance :- "+res.getString("balance")+"Customer loan :- "+res.getString("loan"));
+				+"\n "+"Customer user name :- "+res.getString("user_name")+"\n "+"Customer Account balance :- "+res.getString("balance")+" Customer loan :- "+res.getString("loan"));
 				System.out.println("======================================================");
 				System.out.println("transaction history");
 				try {
@@ -179,7 +179,7 @@ public class AccountantDaoImpl implements AccountantDao{
 			while(res.next()) {
 				System.out.println("======================================================");
 				System.out.println("account no.:- "+res.getInt("acc_no")+"\n "+"Customer Id :- "+res.getInt("id")+"\n "+"Customer Name :- "+res.getString("name")
-				+"\n "+"Customer user name :- "+res.getString("user_name")+"\n "+" Customer Account balance :- "+res.getString("balance")+"Customer loan :- "+res.getString("loan"));
+				+"\n "+"Customer user name :- "+res.getString("user_name")+"\n "+"Customer Account balance :- "+res.getString("balance")+" Customer loan :- "+res.getString("loan"));
 				//System.out.println("======================================================");
 				
 				
