@@ -22,7 +22,7 @@ public class DBUtil {
 		String url="jdbc:mysql://localhost:3306/bank";
 		
 		try {
-			conn= DriverManager.getConnection(url,"root","password");
+			conn= DriverManager.getConnection(url,"root","root");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
