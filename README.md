@@ -11,3 +11,12 @@ This is a Console base application of Bank System and User can login/logout, sen
 - Menu system
 - Dynamic pin system
 - Error detection 
+
+# Tech-Stack used
+- Java
+- Maven Project
+- JPQL
+- MySQL Database
+
+# Screenshots
+
